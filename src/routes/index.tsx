@@ -88,333 +88,67 @@ function SectionTitle({ kicker, title }: { kicker?: string; title: string }) {
   );
 }
 
-/* ---------- Opening Screen: Sealed Envelope ---------- */
-function AmbientParticles() {
-  const dots = useMemo(
-    () =>
-      Array.from({ length: 26 }).map((_, i) => ({
-        key: i,
-        left: Math.random() * 100,
-        top: Math.random() * 100,
-        size: 2 + Math.random() * 4,
-        delay: Math.random() * 6,
-        duration: 6 + Math.random() * 8,
-      })),
-    [],
-  );
-  return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {dots.map((d) => (
-        <motion.span
-          key={d.key}
-          className="absolute rounded-full"
-          style={{
-            left: `${d.left}%`,
-            top: `${d.top}%`,
-            width: d.size,
-            height: d.size,
-            background: "radial-gradient(circle, oklch(0.95 0.08 80 / 0.9), transparent 70%)",
-            filter: "blur(0.5px)",
-          }}
-          animate={{ y: [-12, 12, -12], opacity: [0.2, 0.9, 0.2] }}
-          transition={{ duration: d.duration, delay: d.delay, repeat: Infinity, ease: "easeInOut" }}
-        />
-      ))}
-    </div>
-  );
-}
-
+/* ---------- Opening Screen ---------- */
 function OpeningScreen({ onOpen }: { onOpen: () => void }) {
-  const [stage, setStage] = useState<"sealed" | "opening" | "done">("sealed");
-  const [parallax, setParallax] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    if (stage !== "opening") return;
-    const t = setTimeout(() => {
-      setStage("done");
-      onOpen();
-    }, 2600);
-    return () => clearTimeout(t);
-  }, [stage, onOpen]);
-
-  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width - 0.5) * 14;
-    const y = ((e.clientY - r.top) / r.height - 0.5) * 10;
-    setParallax({ x, y });
-  };
-
-  const breakSeal = () => {
-    if (stage === "sealed") setStage("opening");
-  };
-
-  // Subtle ivory paper texture (SVG noise) as data URI
-  const paper =
-    "data:image/svg+xml;utf8," +
-    encodeURIComponent(
-      `<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 0.96  0 0 0 0 0.92  0 0 0 0 0.84  0 0 0 0.08 0'/></filter><rect width='100%' height='100%' fill='#faf5ea'/><rect width='100%' height='100%' filter='url(%23n)'/></svg>`,
-    );
-
   return (
     <motion.div
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.9, ease: "easeInOut" }}
-      onMouseMove={handleMove}
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, scale: 1.05 }}
+      transition={{ duration: 1.1, ease: "easeInOut" }}
       className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
       style={{
-        background:
-          "radial-gradient(ellipse at 50% 30%, oklch(0.96 0.04 80) 0%, oklch(0.9 0.045 70) 45%, oklch(0.78 0.06 55) 100%)",
+        backgroundImage: `linear-gradient(180deg, oklch(0.985 0.012 85 / 0.85), oklch(0.96 0.025 80 / 0.92)), url(${floralHero})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
-      {/* Warm vignette glow */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at 50% 45%, oklch(1 0 0 / 0.45), transparent 55%), radial-gradient(circle at 50% 100%, oklch(0.3 0.04 50 / 0.35), transparent 60%)",
-        }}
+      <img
+        src={mandala}
+        alt=""
+        aria-hidden
+        className="animate-slow-spin pointer-events-none absolute -top-40 left-1/2 w-[680px] -translate-x-1/2 opacity-20"
       />
-      <AmbientParticles />
-
-      <div className="relative z-10 flex w-full flex-col items-center px-5">
+      <div className="relative z-10 px-6 text-center">
         <motion.p
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: stage === "sealed" ? 1 : 0, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.9 }}
-          className="font-script mb-6 text-3xl text-gold-deep drop-shadow-sm md:mb-8 md:text-5xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.9 }}
+          className="font-script text-3xl text-gold-deep md:text-5xl"
         >
-          You're Invited
+          With the blessings of the Almighty
         </motion.p>
-
-        {/* Envelope */}
-        <motion.div
-          initial={{ opacity: 0, y: 40, scale: 0.92 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            transform: `translate3d(${parallax.x}px, ${parallax.y}px, 0)`,
-            transition: "transform 0.4s ease-out",
-          }}
-          className="relative"
+        <motion.h1
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 1 }}
+          className="font-display mt-6 text-5xl leading-tight text-ink md:text-8xl"
         >
-          <div
-            className="relative"
-            style={{
-              width: "min(86vw, 460px)",
-              aspectRatio: "1.55 / 1",
-              perspective: "1400px",
-            }}
-          >
-            {/* Soft drop shadow under envelope */}
-            <div
-              className="absolute -bottom-8 left-1/2 h-10 w-[80%] -translate-x-1/2 rounded-[50%]"
-              style={{ background: "radial-gradient(ellipse, oklch(0.3 0.04 50 / 0.35), transparent 70%)", filter: "blur(14px)" }}
-            />
-
-            {/* Envelope body (back) */}
-            <div
-              className="absolute inset-0 rounded-[6px] overflow-hidden"
-              style={{
-                backgroundImage: `url("${paper}")`,
-                backgroundSize: "cover",
-                boxShadow:
-                  "0 30px 60px -20px oklch(0.3 0.04 50 / 0.45), inset 0 0 60px oklch(0.7 0.08 60 / 0.25), inset 0 0 0 1px oklch(0.74 0.13 75 / 0.35)",
-              }}
-            >
-              {/* Inner gold border */}
-              <div
-                className="absolute inset-3 rounded-[3px]"
-                style={{ border: "1px solid oklch(0.74 0.13 75 / 0.55)", boxShadow: "inset 0 0 0 1px oklch(0.96 0.04 80 / 0.8)" }}
-              />
-              {/* Letter peeking when opening */}
-              <motion.div
-                initial={{ y: "20%", opacity: 0 }}
-                animate={stage !== "sealed" ? { y: "-58%", opacity: 1 } : { y: "20%", opacity: 0 }}
-                transition={{ delay: 0.9, duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute left-[6%] right-[6%] top-[8%] bottom-[8%] rounded-[4px] z-10"
-                style={{
-                  backgroundImage: `url("${paper}")`,
-                  backgroundSize: "cover",
-                  boxShadow: "0 14px 30px -10px oklch(0.3 0.04 50 / 0.4), inset 0 0 0 1px oklch(0.74 0.13 75 / 0.4)",
-                }}
-              >
-                <div className="flex h-full flex-col items-center justify-center px-6 text-center">
-                  <p className="font-script text-xl text-gold-deep md:text-2xl">Aayush Raj</p>
-                  <span className="my-1 text-gold-deep">&</span>
-                  <p className="font-script text-xl text-gold-deep md:text-2xl">Priyal Komal</p>
-                  <div className="mt-2 h-px w-16 bg-gold-deep/50" />
-                  <p className="mt-2 text-[10px] uppercase tracking-[0.3em] text-ink/70 md:text-xs">
-                    24 · 06 · 2026
-                  </p>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Bottom triangular pockets (visual depth) */}
-            <div
-              className="pointer-events-none absolute inset-0"
-              aria-hidden
-              style={{
-                background:
-                  "linear-gradient(to top right, oklch(0.86 0.06 75) 49.7%, transparent 50%) bottom left / 50% 60% no-repeat, linear-gradient(to top left, oklch(0.86 0.06 75) 49.7%, transparent 50%) bottom right / 50% 60% no-repeat",
-                opacity: 0.55,
-                mixBlendMode: "multiply",
-              }}
-            />
-
-            {/* Top flap */}
-            <motion.div
-              initial={{ rotateX: 0 }}
-              animate={stage !== "sealed" ? { rotateX: -178 } : { rotateX: 0 }}
-              transition={{ delay: 0.5, duration: 1.4, ease: [0.65, 0, 0.35, 1] }}
-              className="absolute left-0 right-0 top-0 origin-top z-20"
-              style={{
-                height: "62%",
-                transformStyle: "preserve-3d",
-                backfaceVisibility: "hidden",
-              }}
-            >
-              <div
-                className="h-full w-full"
-                style={{
-                  clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                  backgroundImage: `linear-gradient(180deg, oklch(0.93 0.05 78), oklch(0.84 0.07 70)), url("${paper}")`,
-                  backgroundBlendMode: "multiply",
-                  backgroundSize: "cover",
-                  boxShadow: "inset 0 0 30px oklch(0.6 0.1 60 / 0.25)",
-                  filter: "drop-shadow(0 4px 6px oklch(0.3 0.04 50 / 0.25))",
-                }}
-              />
-            </motion.div>
-
-            {/* Wax Seal */}
-            <motion.button
-              onClick={breakSeal}
-              disabled={stage !== "sealed"}
-              aria-label="Tap the seal to open invitation"
-              initial={{ scale: 0, rotate: -30 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ delay: 1.1, duration: 0.7, type: "spring", stiffness: 120 }}
-              whileHover={stage === "sealed" ? { scale: 1.06 } : {}}
-              whileTap={stage === "sealed" ? { scale: 0.94 } : {}}
-              className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 cursor-pointer outline-none"
-              style={{ width: "min(26vw, 130px)", aspectRatio: "1" }}
-            >
-              {/* Seal halves split on click */}
-              <motion.div
-                animate={stage !== "sealed" ? { x: -60, rotate: -25, opacity: 0 } : { x: 0, rotate: 0, opacity: 1 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="absolute inset-0"
-                style={{ clipPath: "polygon(0 0, 52% 0, 46% 100%, 0 100%)" }}
-              >
-                <SealFace />
-              </motion.div>
-              <motion.div
-                animate={stage !== "sealed" ? { x: 60, rotate: 25, opacity: 0 } : { x: 0, rotate: 0, opacity: 1 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="absolute inset-0"
-                style={{ clipPath: "polygon(52% 0, 100% 0, 100% 100%, 46% 100%)" }}
-              >
-                <SealFace />
-              </motion.div>
-
-              {/* Pulse ring when sealed */}
-              {stage === "sealed" && (
-                <motion.span
-                  className="absolute inset-0 rounded-full"
-                  style={{ boxShadow: "0 0 0 0 oklch(0.58 0.13 65 / 0.6)" }}
-                  animate={{ boxShadow: ["0 0 0 0 oklch(0.58 0.13 65 / 0.5)", "0 0 0 22px oklch(0.58 0.13 65 / 0)"] }}
-                  transition={{ duration: 1.8, repeat: Infinity }}
-                />
-              )}
-            </motion.button>
-          </div>
-        </motion.div>
-
+          Aayush Raj
+          <span className="mx-3 inline-block animate-shimmer text-gold-deep md:mx-6">&</span>
+          Priyal Komal
+        </motion.h1>
         <motion.p
           initial={{ opacity: 0 }}
-          animate={{ opacity: stage === "sealed" ? 1 : 0 }}
-          transition={{ delay: 1.6, duration: 0.9 }}
-          className="mt-10 text-xs uppercase tracking-[0.4em] text-ink/70 md:text-sm"
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.1, duration: 1 }}
+          className="mx-auto mt-6 max-w-xl text-sm italic text-muted-foreground md:text-base"
         >
-          Tap the Seal to Open
+          Love, Laughter, and the Beginning of a Lifetime of Togetherness
         </motion.p>
+        <motion.button
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={onOpen}
+          className="mt-10 inline-flex items-center gap-3 rounded-full px-10 py-4 text-sm font-medium uppercase tracking-[0.25em] text-ivory shadow-[var(--shadow-glow)]"
+          style={{ background: "var(--gradient-gold)" }}
+        >
+          ✦ Open Invitation ✦
+        </motion.button>
       </div>
     </motion.div>
-  );
-}
-
-function SealFace() {
-  return (
-    <div
-      className="relative h-full w-full rounded-full"
-      style={{
-        background:
-          "radial-gradient(circle at 30% 28%, oklch(0.55 0.18 28), oklch(0.38 0.16 25) 55%, oklch(0.28 0.13 25) 100%)",
-        boxShadow:
-          "0 10px 22px -6px oklch(0.2 0.05 25 / 0.55), inset 0 -6px 12px oklch(0.2 0.05 25 / 0.55), inset 0 4px 8px oklch(1 0 0 / 0.18)",
-      }}
-    >
-      {/* drips */}
-      <span
-        className="absolute -left-1 top-3 h-5 w-5 rounded-full"
-        style={{ background: "oklch(0.42 0.17 26)", filter: "blur(0.3px)" }}
-      />
-      <span
-        className="absolute -right-2 bottom-4 h-6 w-6 rounded-full"
-        style={{ background: "oklch(0.42 0.17 26)", filter: "blur(0.3px)" }}
-      />
-      <span
-        className="absolute right-3 -top-1 h-3 w-3 rounded-full"
-        style={{ background: "oklch(0.45 0.17 26)" }}
-      />
-      {/* embossed floral monogram */}
-      <svg
-        viewBox="0 0 100 100"
-        className="absolute inset-0 h-full w-full p-3"
-        style={{ filter: "drop-shadow(0 1px 0 oklch(0.2 0.05 25 / 0.7))" }}
-      >
-        <defs>
-          <radialGradient id="gold" cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stopColor="oklch(0.92 0.1 85)" />
-            <stop offset="60%" stopColor="oklch(0.78 0.13 75)" />
-            <stop offset="100%" stopColor="oklch(0.55 0.12 65)" />
-          </radialGradient>
-        </defs>
-        <g fill="none" stroke="url(#gold)" strokeWidth="1.4" strokeLinecap="round">
-          <circle cx="50" cy="50" r="36" strokeWidth="1" opacity="0.7" />
-          <circle cx="50" cy="50" r="30" strokeWidth="0.6" opacity="0.5" />
-          {Array.from({ length: 8 }).map((_, i) => {
-            const a = (i * Math.PI) / 4;
-            const x1 = 50 + Math.cos(a) * 8;
-            const y1 = 50 + Math.sin(a) * 8;
-            const x2 = 50 + Math.cos(a) * 26;
-            const y2 = 50 + Math.sin(a) * 26;
-            return (
-              <g key={i}>
-                <path
-                  d={`M${x1} ${y1} Q ${50 + Math.cos(a + 0.3) * 18} ${50 + Math.sin(a + 0.3) * 18} ${x2} ${y2}`}
-                />
-                <circle cx={x2} cy={y2} r="1.4" fill="url(#gold)" stroke="none" />
-              </g>
-            );
-          })}
-        </g>
-        <g fill="url(#gold)">
-          <text
-            x="50"
-            y="58"
-            textAnchor="middle"
-            fontFamily="Cormorant Garamond, serif"
-            fontSize="22"
-            fontWeight="600"
-            letterSpacing="1"
-          >
-            A&P
-          </text>
-        </g>
-      </svg>
-    </div>
   );
 }
 
