@@ -299,7 +299,7 @@ function Countdown() {
               className="font-display text-5xl md:text-6xl"
               style={{ background: "var(--gradient-gold)", WebkitBackgroundClip: "text", color: "transparent" }}
             >
-              {String(it.v).padStart(2, "0")}
+              {ready ? String(it.v).padStart(2, "0") : "--"}
             </span>
             <span className="mt-2 text-xs uppercase tracking-[0.3em] text-muted-foreground">{it.l}</span>
           </motion.div>
