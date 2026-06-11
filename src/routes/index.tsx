@@ -9,12 +9,18 @@ import groomAsset from "@/assets/groom-photo.jpg.asset.json";
 import brideAsset from "@/assets/bride-photo.jpg.asset.json";
 const groom = groomAsset.url;
 const bride = brideAsset.url;
-import g1 from "@/assets/gallery-1.jpg";
-import g2 from "@/assets/gallery-2.jpg";
-import g3 from "@/assets/gallery-3.jpg";
-import g4 from "@/assets/gallery-4.jpg";
-import g5 from "@/assets/gallery-5.jpg";
-import g6 from "@/assets/gallery-6.jpg";
+import g1Asset from "@/assets/gallery-1.jpg.asset.json";
+import g2Asset from "@/assets/gallery-2.jpg.asset.json";
+import g3Asset from "@/assets/gallery-3.jpg.asset.json";
+import g4Asset from "@/assets/gallery-4.jpg.asset.json";
+import g5Asset from "@/assets/gallery-5.jpg.asset.json";
+import g6Asset from "@/assets/gallery-6.jpg.asset.json";
+const g1 = g1Asset.url;
+const g2 = g2Asset.url;
+const g3 = g3Asset.url;
+const g4 = g4Asset.url;
+const g5 = g5Asset.url;
+const g6 = g6Asset.url;
 
 export const Route = createFileRoute("/")({
   component: Invitation,
@@ -25,10 +31,13 @@ const VENUE_QUERY = "Hotel Shree International, Main Road, Maripur, Muzaffarpur,
 const VENUE_MAPS = `https://www.google.com/maps?q=${encodeURIComponent(VENUE_QUERY)}`;
 const VENUE_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(VENUE_QUERY)}&output=embed`;
 // Royalty-free instrumental track
-const MUSIC_URL = "https://cdn.pixabay.com/audio/2022/10/30/audio_347111d654.mp3";
+// Soulful sitar/flute instrumental
+const MUSIC_URL = "https://cdn.pixabay.com/audio/2023/06/22/audio_3a37cc7748.mp3";
 
 /* ---------- Decorative ---------- */
 function Petals() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const petals = useMemo(
     () =>
       Array.from({ length: 18 }).map((_, i) => ({
@@ -41,6 +50,7 @@ function Petals() {
       })),
     [],
   );
+  if (!mounted) return null;
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {petals.map((p) => (
@@ -310,7 +320,7 @@ function EventDetails() {
   );
   return (
     <section className="relative px-6 py-24">
-      <SectionTitle kicker="The Celebration" title="Ring Ceremony & Shubh Sagun" />
+      <SectionTitle kicker="The Celebration" title="Ring Ceremony" />
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
