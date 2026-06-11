@@ -259,21 +259,23 @@ function Couple() {
 
 /* ---------- Countdown ---------- */
 function useCountdown(target: Date) {
-  const [now, setNow] = useState(() => Date.now());
+  const [now, setNow] = useState<number | null>(null);
   useEffect(() => {
+    setNow(Date.now());
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, []);
-  const diff = Math.max(0, target.getTime() - now);
+  const diff = now === null ? 0 : Math.max(0, target.getTime() - now);
+  const ready = now !== null;
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff / 3600000) % 24);
   const m = Math.floor((diff / 60000) % 60);
   const s = Math.floor((diff / 1000) % 60);
-  return { d, h, m, s };
+  return { d, h, m, s, ready };
 }
 
 function Countdown() {
-  const { d, h, m, s } = useCountdown(WEDDING_DATE);
+  const { d, h, m, s, ready } = useCountdown(WEDDING_DATE);
   const items = [
     { v: d, l: "Days" },
     { v: h, l: "Hours" },
