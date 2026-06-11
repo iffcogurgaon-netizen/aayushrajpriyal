@@ -398,20 +398,36 @@ function Gallery() {
   return (
     <section className="relative px-6 py-24">
       <SectionTitle kicker="Memories" title="Cherished Moments" />
-      <div className="mx-auto mt-12 max-w-6xl columns-1 gap-4 sm:columns-2 md:columns-3 [column-fill:_balance]">
-        {GALLERY.map((src, i) => (
-          <motion.button
-            key={i}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: (i % 3) * 0.1 }}
-            onClick={() => setActive(i)}
-            className="mb-4 block w-full overflow-hidden rounded-2xl border border-gold/20 break-inside-avoid shadow-[var(--shadow-soft)] transition-transform hover:scale-[1.02]"
-          >
-            <img src={src} alt={`Memory ${i + 1}`} loading="lazy" className="h-auto w-full" />
-          </motion.button>
-        ))}
+      <div className="mx-auto mt-12 grid max-w-6xl auto-rows-[160px] grid-cols-2 gap-3 md:auto-rows-[200px] md:grid-cols-4 md:gap-4">
+        {GALLERY.map((src, i) => {
+          const spans = [
+            "col-span-1 row-span-2",
+            "col-span-1 row-span-2 md:col-span-2",
+            "col-span-2 row-span-2 md:col-span-1",
+            "col-span-1 row-span-2 md:col-span-2",
+            "col-span-1 row-span-2",
+            "col-span-2 row-span-2",
+          ];
+          return (
+            <motion.button
+              key={i}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: (i % 3) * 0.1 }}
+              onClick={() => setActive(i)}
+              className={`${spans[i]} group relative overflow-hidden rounded-2xl border border-gold/30 shadow-[var(--shadow-soft)]`}
+            >
+              <img
+                src={src}
+                alt={`Memory ${i + 1}`}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+            </motion.button>
+          );
+        })}
       </div>
       <AnimatePresence>
         {active !== null && (
