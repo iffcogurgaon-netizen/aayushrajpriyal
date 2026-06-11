@@ -541,7 +541,7 @@ function Families() {
     <section className="relative px-6 py-24">
       <SectionTitle kicker="Blessings From" title="Our Beloved Families" />
       <div className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-2">
-        {family("The Groom's Family", ["Dr. Kanchana Sobha", "Shri Sanjay Kumar", "& all loving relatives"])}
+        {family("The Groom's Family", ["Smt. Kanchana Sobha", "Shri Sanjay Kumar", "& all loving relatives"])}
         {family("The Bride's Family", ["Dr. Puja Shekhar", "Shri P. K. Dhiraj", "& all loving relatives"])}
       </div>
     </section>
