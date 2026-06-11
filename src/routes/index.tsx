@@ -218,7 +218,7 @@ function Hero() {
 
 /* ---------- Couple ---------- */
 function Couple() {
-  const card = (img: string, role: string, name: string, parents: string, parentNames: string) => (
+  const card = (img: string, role: string, name: string, parents: string, parentNames: string, pos: string) => (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -227,7 +227,7 @@ function Couple() {
       className="glass-card relative overflow-hidden rounded-3xl p-8 text-center"
     >
       <div className="mx-auto h-64 w-64 overflow-hidden rounded-full border-4 border-gold/40 shadow-[var(--shadow-glow)] md:h-72 md:w-72">
-        <img src={img} alt={name} className="h-full w-full object-cover" />
+        <img src={img} alt={name} className="h-full w-full object-cover" style={{ objectPosition: pos }} />
       </div>
       <p className="font-script mt-6 text-2xl text-gold-deep">{role}</p>
       <h3 className="font-display mt-1 text-4xl text-ink md:text-5xl">{name}</h3>
@@ -240,8 +240,8 @@ function Couple() {
     <section className="relative px-6 py-24">
       <SectionTitle kicker="The Couple" title="With Joyful Hearts" />
       <div className="mx-auto mt-16 grid max-w-6xl gap-10 md:grid-cols-2">
-        {card(groom, "The Groom", "Aayush Raj", "Beloved Son of", "Dr. Kanchana Sobha & Sanjay Kumar")}
-        {card(bride, "The Bride", "Priyal Komal", "Beloved Daughter of", "Dr. Puja Shekhar & P. K. Dhiraj")}
+        {card(groom, "The Groom", "Aayush Raj", "Beloved Son of", "Smt. Kanchana Sobha & Shri Sanjay Kumar", "50% 25%")}
+        {card(bride, "The Bride", "Dr. Priyal Komal", "Beloved Daughter of", "Dr. Puja Shekhar & Shri P. K. Dhiraj", "50% 30%")}
       </div>
     </section>
   );
