@@ -446,7 +446,17 @@ function RSVP() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.9 }}
-        onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          const msg =
+            `*Wedding RSVP — Aayush & Priyal*%0A%0A` +
+            `*Name:* ${encodeURIComponent(form.name)}%0A` +
+            `*Mobile:* ${encodeURIComponent(form.mobile)}%0A` +
+            `*Guests:* ${encodeURIComponent(form.guests)}%0A` +
+            `*Attending:* ${form.attending === "yes" ? "Yes, with joy" : "Sadly, no"}`;
+          window.open(`https://wa.me/919939290931?text=${msg}`, "_blank");
+          setSent(true);
+        }}
         className="glass-card mx-auto mt-12 grid max-w-2xl gap-5 rounded-3xl p-8 md:p-12"
       >
         {sent ? (
