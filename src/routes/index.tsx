@@ -5,8 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import floralHero from "@/assets/floral-hero.jpg";
 import mandala from "@/assets/mandala.png";
 import rose from "@/assets/rose.png";
-import groom from "@/assets/groom.jpg";
-import bride from "@/assets/bride.jpg";
+import groomAsset from "@/assets/groom-photo.jpg.asset.json";
+import brideAsset from "@/assets/bride-photo.jpg.asset.json";
+const groom = groomAsset.url;
+const bride = brideAsset.url;
 import g1 from "@/assets/gallery-1.jpg";
 import g2 from "@/assets/gallery-2.jpg";
 import g3 from "@/assets/gallery-3.jpg";
@@ -216,7 +218,7 @@ function Hero() {
 
 /* ---------- Couple ---------- */
 function Couple() {
-  const card = (img: string, role: string, name: string, parents: string, parentNames: string) => (
+  const card = (img: string, role: string, name: string, parents: string, parentNames: string, pos: string) => (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -225,7 +227,7 @@ function Couple() {
       className="glass-card relative overflow-hidden rounded-3xl p-8 text-center"
     >
       <div className="mx-auto h-64 w-64 overflow-hidden rounded-full border-4 border-gold/40 shadow-[var(--shadow-glow)] md:h-72 md:w-72">
-        <img src={img} alt={name} className="h-full w-full object-cover" />
+        <img src={img} alt={name} className="h-full w-full object-cover" style={{ objectPosition: pos }} />
       </div>
       <p className="font-script mt-6 text-2xl text-gold-deep">{role}</p>
       <h3 className="font-display mt-1 text-4xl text-ink md:text-5xl">{name}</h3>
@@ -238,8 +240,8 @@ function Couple() {
     <section className="relative px-6 py-24">
       <SectionTitle kicker="The Couple" title="With Joyful Hearts" />
       <div className="mx-auto mt-16 grid max-w-6xl gap-10 md:grid-cols-2">
-        {card(groom, "The Groom", "Aayush Raj", "Beloved Son of", "Dr. Kanchana Sobha & Sanjay Kumar")}
-        {card(bride, "The Bride", "Priyal Komal", "Beloved Daughter of", "Dr. Puja Shekhar & P. K. Dhiraj")}
+        {card(groom, "The Groom", "Aayush Raj", "Beloved Son of", "Smt. Kanchana Sobha & Shri Sanjay Kumar", "50% 25%")}
+        {card(bride, "The Bride", "Dr. Priyal Komal", "Beloved Daughter of", "Dr. Puja Shekhar & Shri P. K. Dhiraj", "50% 30%")}
       </div>
     </section>
   );
@@ -444,7 +446,17 @@ function RSVP() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.9 }}
-        onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          const msg =
+            `*Wedding RSVP — Aayush & Priyal*%0A%0A` +
+            `*Name:* ${encodeURIComponent(form.name)}%0A` +
+            `*Mobile:* ${encodeURIComponent(form.mobile)}%0A` +
+            `*Guests:* ${encodeURIComponent(form.guests)}%0A` +
+            `*Attending:* ${form.attending === "yes" ? "Yes, with joy" : "Sadly, no"}`;
+          window.open(`https://wa.me/919939290931?text=${msg}`, "_blank");
+          setSent(true);
+        }}
         className="glass-card mx-auto mt-12 grid max-w-2xl gap-5 rounded-3xl p-8 md:p-12"
       >
         {sent ? (
@@ -539,7 +551,7 @@ function Families() {
     <section className="relative px-6 py-24">
       <SectionTitle kicker="Blessings From" title="Our Beloved Families" />
       <div className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-2">
-        {family("The Groom's Family", ["Dr. Kanchana Sobha", "Shri Sanjay Kumar", "& all loving relatives"])}
+        {family("The Groom's Family", ["Smt. Kanchana Sobha", "Shri Sanjay Kumar", "& all loving relatives"])}
         {family("The Bride's Family", ["Dr. Puja Shekhar", "Shri P. K. Dhiraj", "& all loving relatives"])}
       </div>
     </section>
