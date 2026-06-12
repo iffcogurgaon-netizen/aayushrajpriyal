@@ -99,22 +99,16 @@ function SectionTitle({ kicker, title }: { kicker?: string; title: string }) {
   );
 }
 
-/* ---------- Opening Screen (Envelope) ---------- */
+/* ---------- Opening Screen ---------- */
 function OpeningScreen({ onOpen }: { onOpen: () => void }) {
-  const [opening, setOpening] = useState(false);
-  const handleOpen = () => {
-    if (opening) return;
-    setOpening(true);
-    setTimeout(onOpen, 1400);
-  };
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.8, ease: "easeInOut" }}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden px-6"
+      exit={{ opacity: 0, scale: 1.05 }}
+      transition={{ duration: 1.1, ease: "easeInOut" }}
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
       style={{
-        backgroundImage: `linear-gradient(180deg, oklch(0.985 0.012 85 / 0.92), oklch(0.94 0.03 78 / 0.96)), url(${floralHero})`,
+        backgroundImage: `linear-gradient(180deg, oklch(0.985 0.012 85 / 0.85), oklch(0.96 0.025 80 / 0.92)), url(${floralHero})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -123,168 +117,48 @@ function OpeningScreen({ onOpen }: { onOpen: () => void }) {
         src={mandala}
         alt=""
         aria-hidden
-        className="animate-slow-spin pointer-events-none absolute left-1/2 top-1/2 w-[820px] max-w-[160vw] -translate-x-1/2 -translate-y-1/2 opacity-10"
+        className="animate-slow-spin pointer-events-none absolute -top-40 left-1/2 w-[680px] -translate-x-1/2 opacity-20"
       />
-
-      {/* Envelope */}
-      <motion.button
-        onClick={handleOpen}
-        aria-label="Open invitation"
-        initial={{ opacity: 0, y: 30, scale: 0.9 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        whileHover={!opening ? { scale: 1.02, y: -4 } : {}}
-        whileTap={!opening ? { scale: 0.98 } : {}}
-        className="relative z-10 block"
-        style={{
-          width: "min(86vw, 420px)",
-          aspectRatio: "1.55 / 1",
-          perspective: "1400px",
-        }}
-      >
-        {/* Envelope body */}
-        <div
-          className="absolute inset-0 rounded-md"
-          style={{
-            background:
-              "linear-gradient(160deg, oklch(0.92 0.05 75), oklch(0.84 0.07 65))",
-            boxShadow:
-              "0 30px 60px -20px oklch(0.4 0.08 40 / 0.45), inset 0 0 0 1px oklch(0.78 0.08 60 / 0.6)",
-          }}
-        />
-        {/* Front pocket (triangular bottom edges) */}
-        <div
-          className="absolute inset-0 rounded-md overflow-hidden"
-          style={{
-            background:
-              "linear-gradient(180deg, transparent 45%, oklch(0.88 0.06 70) 45%)",
-          }}
+      <div className="relative z-10 px-6 text-center">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.9 }}
+          className="font-script text-3xl text-gold-deep md:text-5xl"
         >
-          <div
-            className="absolute inset-x-0 bottom-0 h-1/2"
-            style={{
-              background:
-                "linear-gradient(180deg, oklch(0.9 0.055 70), oklch(0.82 0.07 60))",
-              clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-              boxShadow: "inset 0 1px 0 oklch(1 0 0 / 0.4)",
-            }}
-          />
-          {/* Side flaps */}
-          <div
-            className="absolute inset-y-0 left-0 w-1/2"
-            style={{
-              background:
-                "linear-gradient(135deg, oklch(0.86 0.06 65) 0%, transparent 60%)",
-              clipPath: "polygon(0 0, 0 100%, 100% 100%)",
-              opacity: 0.7,
-            }}
-          />
-          <div
-            className="absolute inset-y-0 right-0 w-1/2"
-            style={{
-              background:
-                "linear-gradient(225deg, oklch(0.86 0.06 65) 0%, transparent 60%)",
-              clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
-              opacity: 0.7,
-            }}
-          />
-        </div>
-
-        {/* Top flap */}
-        <motion.div
-          className="absolute left-0 right-0 top-0 origin-top"
-          style={{
-            height: "55%",
-            transformStyle: "preserve-3d",
-          }}
-          animate={opening ? { rotateX: -180 } : { rotateX: 0 }}
-          transition={{ duration: 1.1, ease: "easeInOut" }}
+          With the blessings of the Almighty
+        </motion.p>
+        <motion.h1
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 1 }}
+          className="font-display mt-6 text-5xl leading-tight text-ink md:text-8xl"
         >
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(180deg, oklch(0.9 0.055 72), oklch(0.82 0.075 62))",
-              clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-              boxShadow: "inset 0 -1px 0 oklch(0.6 0.08 50 / 0.3)",
-              backfaceVisibility: "hidden",
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(0deg, oklch(0.94 0.04 78), oklch(0.88 0.06 68))",
-              clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-              transform: "rotateX(180deg)",
-              backfaceVisibility: "hidden",
-            }}
-          />
-        </motion.div>
-
-        {/* Wax seal */}
-        <motion.div
-          className="absolute left-1/2 top-1/2 z-20 flex items-center justify-center rounded-full"
-          style={{
-            width: "26%",
-            aspectRatio: "1",
-            transform: "translate(-50%, -50%)",
-            background:
-              "radial-gradient(circle at 35% 30%, oklch(0.55 0.18 25), oklch(0.38 0.16 22) 70%, oklch(0.28 0.12 20))",
-            boxShadow:
-              "0 6px 14px oklch(0.2 0.08 20 / 0.55), inset 0 -3px 6px oklch(0 0 0 / 0.35), inset 0 3px 6px oklch(1 0 0 / 0.15)",
-          }}
-          animate={opening ? { scale: 0, opacity: 0, rotate: 25 } : { scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5, ease: "easeIn" }}
+          Aayush Raj
+          <span className="mx-3 inline-block animate-shimmer text-gold-deep md:mx-6">&</span>
+          Priyal Komal
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.1, duration: 1 }}
+          className="mx-auto mt-6 max-w-xl text-sm italic text-muted-foreground md:text-base"
         >
-          <div
-            className="absolute inset-[8%] rounded-full"
-            style={{
-              border: "1px dashed oklch(0.85 0.08 70 / 0.55)",
-            }}
-          />
-          <span
-            className="font-display relative text-3xl md:text-4xl"
-            style={{
-              color: "oklch(0.92 0.07 75)",
-              textShadow: "0 1px 2px oklch(0 0 0 / 0.5)",
-            }}
-          >
-            A&P
-          </span>
-        </motion.div>
-
-        {/* Letter peeking out */}
-        <motion.div
-          className="absolute left-[8%] right-[8%] rounded-sm"
-          style={{
-            top: "30%",
-            height: "55%",
-            background:
-              "linear-gradient(180deg, oklch(0.98 0.01 85), oklch(0.94 0.02 80))",
-            boxShadow: "0 4px 12px oklch(0.3 0.05 50 / 0.25)",
-            zIndex: 5,
-          }}
-          animate={opening ? { y: "-55%" } : { y: 0 }}
-          transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-        />
-      </motion.button>
-
-      <motion.p
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.8 }}
-        className="font-script relative z-10 mt-10 text-2xl text-gold-deep md:text-3xl"
-      >
-        Tap to open invitation
-      </motion.p>
-      <motion.div
-        animate={{ y: [0, 6, 0] }}
-        transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-        className="relative z-10 mt-3 text-gold-deep"
-      >
-        ▾
-      </motion.div>
+          Love, Laughter, and the Beginning of a Lifetime of Togetherness
+        </motion.p>
+        <motion.button
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={onOpen}
+          className="mt-10 inline-flex items-center gap-3 rounded-full px-10 py-4 text-sm font-medium uppercase tracking-[0.25em] text-ivory shadow-[var(--shadow-glow)]"
+          style={{ background: "var(--gradient-gold)" }}
+        >
+          ✦ Open Invitation ✦
+        </motion.button>
+      </div>
     </motion.div>
   );
 }
