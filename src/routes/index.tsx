@@ -626,8 +626,32 @@ function Invitation() {
   const [playing, setPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  const getAudio = () => {
+    if (audioRef.current) return audioRef.current;
+    if (typeof Audio === "undefined") return null;
+    const audio = new Audio(MUSIC_URL);
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.volume = 0.42;
+    audio.onplaying = () => setPlaying(true);
+    audio.onpause = () => setPlaying(false);
+    audio.onerror = () => setPlaying(false);
+    audioRef.current = audio;
+    return audio;
+  };
+
+  useEffect(() => {
+    return () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+      audio.pause();
+      audio.src = "";
+      audioRef.current = null;
+    };
+  }, []);
+
   const playMusic = () => {
-    const audio = audioRef.current;
+    const audio = getAudio();
     if (!audio) return;
     audio.volume = 0.42;
     void audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
@@ -651,16 +675,6 @@ function Invitation() {
 
   return (
     <main className="relative overflow-hidden">
-      <audio
-        ref={audioRef}
-        src={MUSIC_URL}
-        loop
-        preload="auto"
-        playsInline
-        onPlaying={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        onEnded={() => setPlaying(false)}
-      />
       <Petals />
       <AnimatePresence>
         {!opened && <OpeningScreen onOpen={openInvitation} />}
