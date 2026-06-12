@@ -7,6 +7,7 @@ import mandala from "@/assets/mandala.png";
 import rose from "@/assets/rose.png";
 import groomAsset from "@/assets/groom-photo.jpg.asset.json";
 import brideAsset from "@/assets/bride-photo.jpg.asset.json";
+import musicAsset from "@/assets/soulful-wedding-instrumental.mp3.asset.json";
 const groom = groomAsset.url;
 const bride = brideAsset.url;
 import g1Asset from "@/assets/gallery-1.jpg.asset.json";
@@ -30,9 +31,7 @@ const WEDDING_DATE = new Date("2026-06-24T16:00:00+05:30");
 const VENUE_QUERY = "Hotel Shree International, Main Road, Maripur, Muzaffarpur, Bihar 842001";
 const VENUE_MAPS = `https://www.google.com/maps?q=${encodeURIComponent(VENUE_QUERY)}`;
 const VENUE_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(VENUE_QUERY)}&output=embed`;
-// Royalty-free instrumental track
-// Soulful sitar/flute instrumental
-const MUSIC_URL = "https://cdn.pixabay.com/audio/2023/06/22/audio_3a37cc7748.mp3";
+const MUSIC_URL = musicAsset.url;
 
 /* ---------- Decorative ---------- */
 function Petals() {
@@ -602,30 +601,12 @@ function Closing() {
 }
 
 /* ---------- Music Button ---------- */
-function MusicToggle({ enabled }: { enabled: boolean }) {
-  const [playing, setPlaying] = useState(false);
-  const ref = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    if (!enabled) return;
-    const a = new Audio(MUSIC_URL);
-    a.loop = true;
-    a.volume = 0.4;
-    ref.current = a;
-    a.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
-    return () => { a.pause(); ref.current = null; };
-  }, [enabled]);
-
-  const toggle = () => {
-    const a = ref.current;
-    if (!a) return;
-    if (a.paused) { a.play(); setPlaying(true); } else { a.pause(); setPlaying(false); }
-  };
+function MusicToggle({ enabled, playing, onToggle }: { enabled: boolean; playing: boolean; onToggle: () => void }) {
 
   if (!enabled) return null;
   return (
     <button
-      onClick={toggle}
+      onClick={onToggle}
       aria-label={playing ? "Mute music" : "Play music"}
       className="fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full text-ivory shadow-[var(--shadow-glow)] transition-transform hover:scale-110"
       style={{ background: "var(--gradient-gold)" }}
@@ -642,11 +623,61 @@ function MusicToggle({ enabled }: { enabled: boolean }) {
 /* ---------- Page ---------- */
 function Invitation() {
   const [opened, setOpened] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const getAudio = () => {
+    if (audioRef.current) return audioRef.current;
+    if (typeof Audio === "undefined") return null;
+    const audio = new Audio(MUSIC_URL);
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.volume = 0.42;
+    audio.onplaying = () => setPlaying(true);
+    audio.onpause = () => setPlaying(false);
+    audio.onerror = () => setPlaying(false);
+    audioRef.current = audio;
+    return audio;
+  };
+
+  useEffect(() => {
+    return () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+      audio.pause();
+      audio.src = "";
+      audioRef.current = null;
+    };
+  }, []);
+
+  const playMusic = () => {
+    const audio = getAudio();
+    if (!audio) return;
+    audio.volume = 0.42;
+    void audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+  };
+
+  const toggleMusic = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) {
+      playMusic();
+    } else {
+      audio.pause();
+      setPlaying(false);
+    }
+  };
+
+  const openInvitation = () => {
+    setOpened(true);
+    playMusic();
+  };
+
   return (
     <main className="relative overflow-hidden">
       <Petals />
       <AnimatePresence>
-        {!opened && <OpeningScreen onOpen={() => setOpened(true)} />}
+        {!opened && <OpeningScreen onOpen={openInvitation} />}
       </AnimatePresence>
 
       <Hero />
@@ -659,7 +690,7 @@ function Invitation() {
       <Families />
       <Closing />
 
-      <MusicToggle enabled={opened} />
+      <MusicToggle enabled={opened} playing={playing} onToggle={toggleMusic} />
     </main>
   );
 }
