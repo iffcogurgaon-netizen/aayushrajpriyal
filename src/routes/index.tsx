@@ -632,7 +632,7 @@ function Invitation() {
     const audio = new Audio(MUSIC_URL);
     audio.loop = true;
     audio.preload = "auto";
-    audio.volume = 0.42;
+    audio.volume = 0.18;
     audio.onplaying = () => setPlaying(true);
     audio.onpause = () => setPlaying(false);
     audio.onerror = () => setPlaying(false);
@@ -653,7 +653,7 @@ function Invitation() {
   const playMusic = () => {
     const audio = getAudio();
     if (!audio) return;
-    audio.volume = 0.42;
+    audio.volume = 0.18;
     void audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
   };
 
