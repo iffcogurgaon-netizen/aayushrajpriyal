@@ -53,26 +53,19 @@ function Petals() {
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {petals.map((p) => (
-        <svg
+        <span
           key={p.key}
-          viewBox="0 0 24 24"
-          className="absolute block"
+          className="absolute block rounded-full"
           style={{
             left: `${p.left}%`,
             top: "-10vh",
-            width: p.size,
-            height: p.size,
-            transform: `rotate(${p.rotate}deg)`,
+            width: p.size * 0.4,
+            height: p.size * 0.4,
             animation: `float-petal ${p.duration}s linear ${p.delay}s infinite`,
-            opacity: 0.7,
-            filter: "drop-shadow(0 4px 6px oklch(0.5 0.22 20 / 0.35))",
+            background: "radial-gradient(circle, oklch(0.95 0.06 18 / 0.95), oklch(0.7 0.2 18 / 0.2) 60%, transparent 70%)",
+            boxShadow: "0 0 12px oklch(0.78 0.18 18 / 0.7)",
           }}
-        >
-          <path
-            d="M12 21s-7-4.534-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.466-9.5 9-9.5 9z"
-            fill="oklch(0.65 0.22 18)"
-          />
-        </svg>
+        />
       ))}
     </div>
   );
