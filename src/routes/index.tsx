@@ -116,12 +116,23 @@ function OpeningScreen({ onOpen }: { onOpen: () => void }) {
         backgroundPosition: "center",
       }}
     >
-      <img
-        src={mandala}
-        alt=""
+      <svg
+        viewBox="0 0 24 24"
         aria-hidden
-        className="animate-slow-spin pointer-events-none absolute -top-40 left-1/2 w-[680px] -translate-x-1/2 opacity-20"
-      />
+        className="animate-heartbeat-top pointer-events-none absolute -top-32 left-1/2 w-[520px] max-w-[110vw] -translate-x-1/2"
+        style={{ filter: "drop-shadow(0 20px 60px oklch(0.5 0.22 20 / 0.45))" }}
+      >
+        <path
+          d="M12 21s-7-4.534-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.466-9.5 9-9.5 9z"
+          fill="url(#heartGrad1)"
+        />
+        <defs>
+          <linearGradient id="heartGrad1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="oklch(0.82 0.12 10)" />
+            <stop offset="100%" stopColor="oklch(0.5 0.22 20)" />
+          </linearGradient>
+        </defs>
+      </svg>
       <div className="relative z-10 px-6 text-center">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -183,12 +194,23 @@ function Hero() {
         }}
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ivory/60 via-ivory/30 to-ivory/90" />
-      <img
-        src={mandala}
-        alt=""
+      <svg
+        viewBox="0 0 24 24"
         aria-hidden
-        className="animate-slow-spin pointer-events-none absolute left-1/2 top-1/2 w-[900px] max-w-[140vw] -translate-x-1/2 -translate-y-1/2 opacity-10"
-      />
+        className="animate-heartbeat pointer-events-none absolute left-1/2 top-1/2 w-[780px] max-w-[140vw]"
+        style={{ filter: "drop-shadow(0 30px 80px oklch(0.5 0.22 20 / 0.35))" }}
+      >
+        <path
+          d="M12 21s-7-4.534-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.466-9.5 9-9.5 9z"
+          fill="url(#heartGrad2)"
+        />
+        <defs>
+          <linearGradient id="heartGrad2" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="oklch(0.85 0.1 10)" />
+            <stop offset="100%" stopColor="oklch(0.55 0.22 18)" />
+          </linearGradient>
+        </defs>
+      </svg>
 
       <div className="relative text-center">
         <motion.p
@@ -583,7 +605,12 @@ function Families() {
 function Closing() {
   return (
     <section className="relative px-6 py-32 text-center">
-      <img src={mandala} alt="" aria-hidden className="animate-slow-spin mx-auto w-40 opacity-30" />
+      <svg viewBox="0 0 24 24" aria-hidden className="animate-breathe mx-auto w-32">
+        <path
+          d="M12 21s-7-4.534-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.466-9.5 9-9.5 9z"
+          fill="oklch(0.6 0.22 18)"
+        />
+      </svg>
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
