@@ -46,14 +46,14 @@
 :root {
   --radius: 0.75rem;
 
-  --ivory: oklch(0.98 0.012 15);
-  --cream: oklch(0.95 0.03 18);
-  --champagne: oklch(0.88 0.07 12);
-  --gold: oklch(0.68 0.19 18);
-  --gold-deep: oklch(0.5 0.22 20);
-  --blush: oklch(0.9 0.06 8);
-  --blush-deep: oklch(0.72 0.16 12);
-  --ink: oklch(0.26 0.07 18);
+  --ivory: oklch(0.96 0.025 10);
+  --cream: oklch(0.92 0.05 12);
+  --champagne: oklch(0.85 0.09 8);
+  --gold: oklch(0.62 0.22 18);
+  --gold-deep: oklch(0.45 0.22 20);
+  --blush: oklch(0.88 0.08 6);
+  --blush-deep: oklch(0.68 0.18 14);
+  --ink: oklch(0.22 0.08 18);
 
   --background: var(--ivory);
   --foreground: var(--ink);
@@ -90,8 +90,10 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     background-image:
-      radial-gradient(ellipse at top, oklch(0.85 0.13 12 / 0.4), transparent 60%),
-      radial-gradient(ellipse at bottom, oklch(0.78 0.18 18 / 0.35), transparent 60%);
+      radial-gradient(ellipse at 20% 0%, oklch(0.78 0.18 14 / 0.55), transparent 55%),
+      radial-gradient(ellipse at 80% 20%, oklch(0.7 0.2 22 / 0.45), transparent 55%),
+      radial-gradient(ellipse at 50% 100%, oklch(0.6 0.22 18 / 0.5), transparent 60%),
+      linear-gradient(135deg, oklch(0.94 0.05 10), oklch(0.88 0.1 14) 50%, oklch(0.8 0.15 18));
     background-attachment: fixed;
   }
   h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; letter-spacing: 0.01em; }
