@@ -53,26 +53,19 @@ function Petals() {
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {petals.map((p) => (
-        <svg
+        <span
           key={p.key}
-          viewBox="0 0 24 24"
-          className="absolute block"
+          className="absolute block rounded-full"
           style={{
             left: `${p.left}%`,
             top: "-10vh",
-            width: p.size,
-            height: p.size,
-            transform: `rotate(${p.rotate}deg)`,
+            width: p.size * 0.4,
+            height: p.size * 0.4,
             animation: `float-petal ${p.duration}s linear ${p.delay}s infinite`,
-            opacity: 0.7,
-            filter: "drop-shadow(0 4px 6px oklch(0.5 0.22 20 / 0.35))",
+            background: "radial-gradient(circle, oklch(0.95 0.06 18 / 0.95), oklch(0.7 0.2 18 / 0.2) 60%, transparent 70%)",
+            boxShadow: "0 0 12px oklch(0.78 0.18 18 / 0.7)",
           }}
-        >
-          <path
-            d="M12 21s-7-4.534-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.466-9.5 9-9.5 9z"
-            fill="oklch(0.65 0.22 18)"
-          />
-        </svg>
+        />
       ))}
     </div>
   );
@@ -116,23 +109,14 @@ function OpeningScreen({ onOpen }: { onOpen: () => void }) {
         backgroundPosition: "center",
       }}
     >
-      <svg
-        viewBox="0 0 24 24"
-        aria-hidden
-        className="animate-heartbeat-top pointer-events-none absolute -top-32 left-1/2 w-[520px] max-w-[110vw] -translate-x-1/2"
-        style={{ filter: "drop-shadow(0 20px 60px oklch(0.5 0.22 20 / 0.45))" }}
-      >
-        <path
-          d="M12 21s-7-4.534-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.466-9.5 9-9.5 9z"
-          fill="url(#heartGrad1)"
-        />
-        <defs>
-          <linearGradient id="heartGrad1" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="oklch(0.82 0.12 10)" />
-            <stop offset="100%" stopColor="oklch(0.5 0.22 20)" />
-          </linearGradient>
-        </defs>
-      </svg>
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="animate-drift-a absolute -top-32 -left-24 h-[420px] w-[420px] rounded-full opacity-60 blur-3xl"
+          style={{ background: "radial-gradient(circle, oklch(0.78 0.18 14 / 0.7), transparent 70%)" }} />
+        <div className="animate-drift-b absolute -top-10 right-[-120px] h-[380px] w-[380px] rounded-full opacity-55 blur-3xl"
+          style={{ background: "radial-gradient(circle, oklch(0.72 0.2 22 / 0.6), transparent 70%)" }} />
+        <div className="animate-drift-c absolute bottom-[-160px] left-1/3 h-[460px] w-[460px] rounded-full opacity-55 blur-3xl"
+          style={{ background: "radial-gradient(circle, oklch(0.6 0.22 18 / 0.55), transparent 70%)" }} />
+      </div>
       <div className="relative z-10 px-6 text-center">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -194,23 +178,14 @@ function Hero() {
         }}
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ivory/60 via-ivory/30 to-ivory/90" />
-      <svg
-        viewBox="0 0 24 24"
-        aria-hidden
-        className="animate-heartbeat pointer-events-none absolute left-1/2 top-1/2 w-[780px] max-w-[140vw]"
-        style={{ filter: "drop-shadow(0 30px 80px oklch(0.5 0.22 20 / 0.35))" }}
-      >
-        <path
-          d="M12 21s-7-4.534-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.466-9.5 9-9.5 9z"
-          fill="url(#heartGrad2)"
-        />
-        <defs>
-          <linearGradient id="heartGrad2" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="oklch(0.85 0.1 10)" />
-            <stop offset="100%" stopColor="oklch(0.55 0.22 18)" />
-          </linearGradient>
-        </defs>
-      </svg>
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="animate-drift-a absolute top-[10%] left-[-10%] h-[520px] w-[520px] rounded-full opacity-50 blur-3xl"
+          style={{ background: "radial-gradient(circle, oklch(0.78 0.18 14 / 0.7), transparent 70%)" }} />
+        <div className="animate-drift-b absolute top-[40%] right-[-15%] h-[600px] w-[600px] rounded-full opacity-45 blur-3xl"
+          style={{ background: "radial-gradient(circle, oklch(0.7 0.2 22 / 0.6), transparent 70%)" }} />
+        <div className="animate-drift-c absolute bottom-[-20%] left-[30%] h-[560px] w-[560px] rounded-full opacity-50 blur-3xl"
+          style={{ background: "radial-gradient(circle, oklch(0.6 0.22 18 / 0.55), transparent 70%)" }} />
+      </div>
 
       <div className="relative text-center">
         <motion.p
