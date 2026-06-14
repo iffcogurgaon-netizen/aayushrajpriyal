@@ -605,7 +605,12 @@ function Families() {
 function Closing() {
   return (
     <section className="relative px-6 py-32 text-center">
-      <img src={mandala} alt="" aria-hidden className="animate-slow-spin mx-auto w-40 opacity-30" />
+      <svg viewBox="0 0 24 24" aria-hidden className="animate-breathe mx-auto w-32">
+        <path
+          d="M12 21s-7-4.534-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.466-9.5 9-9.5 9z"
+          fill="oklch(0.6 0.22 18)"
+        />
+      </svg>
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
