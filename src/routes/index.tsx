@@ -116,23 +116,14 @@ function OpeningScreen({ onOpen }: { onOpen: () => void }) {
         backgroundPosition: "center",
       }}
     >
-      <svg
-        viewBox="0 0 24 24"
-        aria-hidden
-        className="animate-heartbeat-top pointer-events-none absolute -top-32 left-1/2 w-[520px] max-w-[110vw] -translate-x-1/2"
-        style={{ filter: "drop-shadow(0 20px 60px oklch(0.5 0.22 20 / 0.45))" }}
-      >
-        <path
-          d="M12 21s-7-4.534-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.466-9.5 9-9.5 9z"
-          fill="url(#heartGrad1)"
-        />
-        <defs>
-          <linearGradient id="heartGrad1" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="oklch(0.82 0.12 10)" />
-            <stop offset="100%" stopColor="oklch(0.5 0.22 20)" />
-          </linearGradient>
-        </defs>
-      </svg>
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="animate-drift-a absolute -top-32 -left-24 h-[420px] w-[420px] rounded-full opacity-60 blur-3xl"
+          style={{ background: "radial-gradient(circle, oklch(0.78 0.18 14 / 0.7), transparent 70%)" }} />
+        <div className="animate-drift-b absolute -top-10 right-[-120px] h-[380px] w-[380px] rounded-full opacity-55 blur-3xl"
+          style={{ background: "radial-gradient(circle, oklch(0.72 0.2 22 / 0.6), transparent 70%)" }} />
+        <div className="animate-drift-c absolute bottom-[-160px] left-1/3 h-[460px] w-[460px] rounded-full opacity-55 blur-3xl"
+          style={{ background: "radial-gradient(circle, oklch(0.6 0.22 18 / 0.55), transparent 70%)" }} />
+      </div>
       <div className="relative z-10 px-6 text-center">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
